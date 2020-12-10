@@ -583,6 +583,7 @@ class GitPreCommitScanner(GitScanner):
 
         :rtype: Generator[Chunk, None, None]
         """
-        diff = self._repo.index.diff(self._repo.head.commit, create_patch=True, R=True)
+        # If ‘cached’ is set to True, the index/staging area is used for comparing.
+        diff = self._repo.diff(cached=True)
         for blob, file_path in self._iter_diff(diff):
             yield types.Chunk(blob, file_path, {})

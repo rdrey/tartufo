@@ -114,7 +114,7 @@ class ProcessIssuesTest(unittest.TestCase):
         helpers.BROKEN_USER_PATHS, "Skipping due to truncated Windows usernames"
     )
     @mock.patch("tartufo.cli.datetime")
-    @mock.patch("tartufo.commands.scan_local_repo.GitRepoScanner")
+    @mock.patch("tartufo.commands.scan_local_repo.GitLocalRepoScanner")
     @mock.patch("tartufo.util.echo_issues", new=mock.MagicMock())
     @mock.patch("tartufo.util.write_outputs", new=mock.MagicMock())
     def test_output_dir_is_valid_name_in_windows(

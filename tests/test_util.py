@@ -28,7 +28,7 @@ class GitTests(unittest.TestCase):
         mock_mkdtemp.return_value = "/foo"
         util.get_repository("https://github.com/godaddy/tartufo.git")
         mock_clone.assert_called_once_with(
-            "https://github.com/godaddy/tartufo.git", "/foo"
+            "https://github.com/godaddy/tartufo.git", str(Path("/foo").resolve())
         )
 
     @mock.patch("pygit2.clone_repository", new=mock.MagicMock())
@@ -36,7 +36,7 @@ class GitTests(unittest.TestCase):
     def test_get_repository_returns_path_to_clone(self, mock_mkdtemp: mock.MagicMock):
         mock_mkdtemp.return_value = "/foo"
         repo_path = util.get_repository("https://github.com/godaddy/tartufo.git")
-        self.assertEqual(repo_path[0], Path("/foo"))
+        self.assertEqual(repo_path[0], Path("/foo").resolve())
 
     @mock.patch("pygit2.clone_repository")
     @mock.patch("tartufo.util.tempfile.mkdtemp")
@@ -48,7 +48,8 @@ class GitTests(unittest.TestCase):
         )
         mock_temp.assert_not_called()
         mock_clone.assert_called_once_with(
-            "https://github.com/godaddy/tartufo.git", str(Path("/foo/tartufo.git")),
+            "https://github.com/godaddy/tartufo.git",
+            str(Path("/foo/tartufo.git").resolve()),
         )
 
     @mock.patch("pygit2.clone_repository")
